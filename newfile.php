@@ -1,9 +1,21 @@
 <?php
 class ShopProduct {
-    public $title="title";
-    public $author_sur_name="surname";
-    public $author_first_name="name";
-    public $price=0;
+    public $title;
+    public $author_sur_name;
+    public $author_first_name;
+    public $price;
+    
+    public function __construct(
+        $title,
+        $author_sur_name,
+        $author_first_name,
+        $price)
+    {
+        $this->title=$title;
+        $this->author_sur_name=$author_sur_name;
+        $this->author_first_name=$author_first_name;
+        $this->price=$price;
+    }
     
     public function NameSurname(){
         return $this->author_first_name . " " . $this->author_sur_name;
@@ -14,18 +26,13 @@ class ShopProduct {
     }
 }
 
-$book1= new ShopProduct();
-$book1->title = "Book One";
-$book1->author_sur_name = "Doe";
-$book1->author_first_name = "John";
-$book1->price = 19.99;
+$book1= new ShopProduct("Book One", "Doe", "John", 19.99);
+$book2= new ShopProduct("Book Two", "Smith", "Jane", 25);
 
-$book2= new ShopProduct();
-$book2->title="Book two";
-$book2->author_sur_name = "Smith";
-$book2->author_first_name = "Jane";
-$book2->price = 29.99;
+
 
 print "author: {$book1->NameSurname()}";
 print "Title: {$book1->TitlePrice()}";
+print "author: {$book2->NameSurname()}";
+print "Title: {$book2->TitlePrice()}";
 ?>
