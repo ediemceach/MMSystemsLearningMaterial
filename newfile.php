@@ -1,20 +1,14 @@
 <?php
 class ShopProduct {
-    public $title;
-    public $author_sur_name;
-    public $author_first_name;
-    public $price;
+
     
     public function __construct(
-        $title,
-        $author_sur_name,
-        $author_first_name,
-        $price)
+       public $title,
+        public $author_sur_name,
+        public $author_first_name,
+        public $price)
     {
-        $this->title=$title;
-        $this->author_sur_name=$author_sur_name;
-        $this->author_first_name=$author_first_name;
-        $this->price=$price;
+
     }
     
     public function NameSurname(){
