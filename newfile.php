@@ -13,11 +13,9 @@ print "\n";
     }
 }
 
-$xml = simplexml_load_string('<settings>
-    <resolvedomains>false</resolvedomains>
-</settings>');
+$xml = simplexml_load_file("settings.xml");
 
-$resolve = (string) $xml->resolvedomains;
+$resolve = (bool) $xml->resolvedomains;
 $manager = new AddressManager();
 $manager->outputAddress($resolve);
 
