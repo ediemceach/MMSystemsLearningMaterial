@@ -4,9 +4,9 @@ class ShopProduct {
     
     public function __construct(
        public $title,
-        public $author_sur_name,
-        public $author_first_name,
-        public $price)
+        public $author_sur_name="",
+        public $author_first_name="",
+        public $price=0)
     {
 
     }
@@ -20,8 +20,8 @@ class ShopProduct {
     }
 }
 
-$book1= new ShopProduct("Book One", "Doe", "John", 19.99);
-$book2= new ShopProduct("Book Two", "Smith", "Jane", 25);
+$book1= new ShopProduct("Book One");
+$book2= new ShopProduct(price:10, title:"Proba");
 
 
 
