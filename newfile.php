@@ -15,7 +15,8 @@ print "\n";
 
 $xml = simplexml_load_file("settings.xml");
 
-$resolve = (bool) $xml->resolvedomains;
+$resolve = (string) $xml->resolvedomains;
+$resolve = filter_var($resolve, FILTER_VALIDATE_BOOLEAN);
 $manager = new AddressManager();
 $manager->outputAddress($resolve);
 
