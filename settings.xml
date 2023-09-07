@@ -1,4 +1,4 @@
 
 <settings>
-    <resolvedomains>false</resolvedomains>
+    <resolvedomains>true</resolvedomains>
 </settings>
