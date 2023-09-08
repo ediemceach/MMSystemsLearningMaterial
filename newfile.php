@@ -20,13 +20,26 @@ class ShopProduct {
     }
 }
 
-$book1= new ShopProduct("Book One");
+
+class ProductWriter {
+    
+    public function write(ShopProduct $ShopProduct)
+    {
+      $str=$ShopProduct->title . " : " . $ShopProduct->NameSurname() . " price: " . $ShopProduct->price;
+      print $str;
+    }
+    
+}
+
+class wrong{
+    
+}
+
+$book1= new ShopProduct("Book One","Edis", "Mekic");
 $book2= new ShopProduct(price:10, title:"Proba");
 
+$writer= new ProductWriter();
+$writer->write($book2);
 
 
-print "author: {$book1->NameSurname()}";
-print "Title: {$book1->TitlePrice()}";
-print "author: {$book2->NameSurname()}";
-print "Title: {$book2->TitlePrice()}";
 ?>
