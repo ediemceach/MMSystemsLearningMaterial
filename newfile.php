@@ -35,7 +35,7 @@ class wrong{
     
 }
 
-$book1= new ShopProduct("Book One","Edis", "Mekic", 10);
+$book1= new ShopProduct("Book One","Edis", "Mekic", "10");
 $book2= new ShopProduct(price:10, title:"Proba");
 
 $writer= new ProductWriter();
