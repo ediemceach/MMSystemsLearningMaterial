@@ -3,10 +3,10 @@ class ShopProduct {
 
     
     public function __construct(
-       public $title,
-        public $author_sur_name="",
-        public $author_first_name="",
-        public $price=0)
+       public string $title,
+        public string $author_sur_name="",
+        public string $author_first_name="",
+        public float $price=0)
     {
 
     }
@@ -35,11 +35,13 @@ class wrong{
     
 }
 
-$book1= new ShopProduct("Book One","Edis", "Mekic");
+$book1= new ShopProduct("Book One","Edis", "Mekic", 10);
 $book2= new ShopProduct(price:10, title:"Proba");
 
 $writer= new ProductWriter();
 $writer->write($book2);
+
+print $book1->NameSurname();
 
 
 ?>
