@@ -6,7 +6,9 @@ class ShopProduct {
        public string $title,
         public string $author_sur_name="",
         public string $author_first_name="",
-        public float $price=0)
+        public float $price=0,
+        public int $num_pages=0,
+        public int $play_lenght=0)
     {
 
     }
@@ -20,7 +22,6 @@ class ShopProduct {
     }
 }
 
-
 class ProductWriter {
     
     public function write(ShopProduct $ShopProduct)
@@ -33,6 +34,20 @@ class ProductWriter {
 
 class wrong{
     
+}
+
+class CdProduct extends ShopProduct {
+    public function playLenght():int{
+        return $this->play_lenght;
+        
+    }
+}
+
+class BookProduct extends ShopProduct{
+    public function playLenght():int{
+        return $this->num_pages;
+        
+    }
 }
 
 $book1= new ShopProduct("Book One","Edis", "Mekic", "10");
