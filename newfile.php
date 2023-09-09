@@ -1,21 +1,30 @@
 <?php
-class AddressManager {
-    private $addresses = ["209.131.36.159", "216.58.213.174"];
-    public function outputAddress(bool $resolve)
-    {
-foreach ($this->addresses as $address) {
-print $address;
-if ($resolve) {
-print " (" . gethostbyaddr($address) . ")";
-            }
-print "\n";
-        }
+class Storage{
+    public function add(string $key, $value){
+        //ovakva funkcija radi nesto sa promenljivim key i value koji moraju biti stringovi
+    }
+    
+    public function add1(string $kew, mixed $valuse){
+        //ova funkcija ogranicava key na string, dok je value tipa mixed(tj. moze biti array, bool, callable, int, float, null, object, resource, or string
+        
+    }
+    
+    public function Union(string $key, string|bool $value){
+        
+        //value je na ovakav nacin ogranicen na string ili boolean
+        
+    }
+    
+    public function Union(string $key, string|bool|null $value){
+        
+        //value je na ovakav nacin ogranicen na string ili boolean, ali i na null vrednost
+        
+    }
+    
+    public setShopProduct(ShopProduct|null $product){
+        
     }
 }
-
-
-$manager = new AddressManager();
-$manager->outputAddress(false);
 
 
 ?>
