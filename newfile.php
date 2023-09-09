@@ -44,19 +44,13 @@ class CdProduct extends ShopProduct {
 }
 
 class BookProduct extends ShopProduct{
-    public function playLenght():int{
+    public function numberPages():int{
         return $this->num_pages;
         
     }
 }
 
-$book1= new ShopProduct("Book One","Edis", "Mekic", "10");
-$book2= new ShopProduct(price:10, title:"Proba");
 
-$writer= new ProductWriter();
-$writer->write($book2);
-
-print $book1->NameSurname();
 
 
 ?>
