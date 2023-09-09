@@ -6,7 +6,10 @@ class ShopProduct {
        public string $title,
         public string $author_sur_name="",
         public string $author_first_name="",
-        public float $price=0)
+        public string $product_type="",
+    public int $num_pages=0,
+    public int  $play_lenght=0,
+    public float $price=0)
     {
 
     }
@@ -23,25 +26,30 @@ class ShopProduct {
 
 class ProductWriter {
     
-    public function write(ShopProduct $ShopProduct)
-    {
-      $str=$ShopProduct->title . " : " . $ShopProduct->NameSurname() . " price: " . $ShopProduct->price;
-      print $str;
+    public function write(ShopProduct $product): string {
+        $base = "{$product->title} ({$product->author_first_name}, {$product->author_sur_name})";
+        
+        if ($product->product_type === "book") {
+        $base .= " Number of pages: {$product->num_pages}";
+        } elseif ($product->product_type === "cd") {
+            $base .= " Play length: {$product->play_lenght}";
+        }
+        
+        $base .= " Price: {$product->price}";  
+        return $base;
     }
-    
 }
 
-class wrong{
-    
-}
+$book1 = new ShopProduct("Book One", "Edis", "Mekic", "book", 25, 0, 10);
+$book2 = new ShopProduct("Book Two", "John", "Doe", "cd", 0, 60, 15);
 
-$book1= new ShopProduct("Book One","Edis", "Mekic", "10");
-$book2= new ShopProduct(price:10, title:"Proba");
+$writer = new ProductWriter();
 
-$writer= new ProductWriter();
-$writer->write($book2);
+// Printing book1's information
+echo $writer->write($book1);
 
-print $book1->NameSurname();
+// Printing book2's information
+echo $writer->write($book2);
 
 
 ?>
