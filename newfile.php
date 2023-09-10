@@ -20,34 +20,48 @@ class ShopProduct {
     public function TitlePrice(){
         return  $this->title . " price " .  $this->price;
     }
-}
-
-class ProductWriter {
     
-    public function write(ShopProduct $ShopProduct)
+    public function write():string
     {
-      $str=$ShopProduct->title . " : " . $ShopProduct->NameSurname() . " price: " . $ShopProduct->price;
-      print $str;
+        $base="tekst {$this->title} \n";
+        $base="Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n";
+        $base="Cena{$this->price}";
+        return $base;
     }
-    
 }
 
-class wrong{
-    
-}
+
 
 class CdProduct extends ShopProduct {
-    public function playLenght():int{
+    public function playLenght():int
+    {
         return $this->play_lenght;
-        
+    }
+    
+    public function write():string
+    {
+    $base="tekst {$this->title} \n";
+    $base="Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n";
+    $base="Duzina reprodukcije {$this->play_lenght} Cena{$this->price}";
+    return $base;
     }
 }
 
-class BookProduct extends ShopProduct{
-    public function numberPages():int{
+class BookProduct extends ShopProduct
+{
+ public function numberPages():int{
         return $this->num_pages;
+         }
+         
         
-    }
+             public function write():string
+             {
+                 $base="tekst {$this->title} \n";
+                 $base="Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n";
+                 $base="Broj strana {$this->num_pages} Cena{$this->price}";
+                 return $base;
+             }
+         
 }
 
 
