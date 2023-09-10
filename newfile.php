@@ -23,9 +23,9 @@ class ShopProduct {
     
     public function write():string
     {
-        $base="tekst {$this->title} \n";
-        $base="Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n";
-        $base="Cena{$this->price}";
+        $base="tekst {$this->title} \n" .
+        $base="Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n" .
+        $base="Cena{$this->price}\n\n";
         return $base;
     }
 }
@@ -40,9 +40,9 @@ class CdProduct extends ShopProduct {
     
     public function write():string
     {
-    $base="tekst {$this->title} \n";
-    $base="Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n";
-    $base="Duzina reprodukcije {$this->play_lenght} Cena{$this->price}";
+    $base="tekst {$this->title} \n" .
+    "Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n" .
+    "Duzina reprodukcije {$this->play_lenght} Cena{$this->price}\n\n";
     return $base;
     }
 }
@@ -56,13 +56,20 @@ class BookProduct extends ShopProduct
         
              public function write():string
              {
-                 $base="tekst {$this->title} \n";
-                 $base="Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n";
-                 $base="Broj strana {$this->num_pages} Cena{$this->price}";
+                 $base="tekst {$this->title} \n" .
+                "Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n" .
+                "Broj strana {$this->num_pages} Cena{$this->price}\n\n";
                  return $base;
              }
          
 }
+
+$book1 = new BookProduct("Book One", "Edis", "Mekic", 10.99, 250);
+$book2 = new BookProduct("Book Two", "John", "Doe", 15.99, 320);
+$cd1 = new CdProduct("CD One", "Artist", "LastName", 12.49, 60);
+
+echo $book1->write();
+echo $cd1->write();
 
 
 
