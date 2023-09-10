@@ -6,9 +6,7 @@ class ShopProduct {
        public string $title,
         public string $author_sur_name="",
         public string $author_first_name="",
-        public float $price=0,
-        public int $num_pages=0,
-        public int $play_lenght=0)
+        public float $price=0)
     {
 
     }
@@ -24,8 +22,8 @@ class ShopProduct {
     public function write():string
     {
         $base="tekst {$this->title} \n" .
-        $base="Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n" .
-        $base="Cena{$this->price}\n\n";
+        $base="Ime autora :{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n" .
+        $base="Cena{$this->price}\n";
         return $base;
     }
 }
@@ -33,6 +31,17 @@ class ShopProduct {
 
 
 class CdProduct extends ShopProduct {
+    
+    public function __construct(
+        public string $title,
+        public string $author_sur_name="",
+        public string $author_first_name="",
+        public float $price=0,
+        public int $play_lenght=0)
+    {
+        
+    }
+    
     public function playLenght():int
     {
         return $this->play_lenght;
@@ -40,15 +49,24 @@ class CdProduct extends ShopProduct {
     
     public function write():string
     {
-    $base="tekst {$this->title} \n" .
-    "Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n" .
-    "Duzina reprodukcije {$this->play_lenght} Cena{$this->price}\n\n";
+    $base=parent::write() . 
+    "Duzina reprodukcije {$this->play_lenght} \n\n";
     return $base;
     }
 }
 
-class BookProduct extends ShopProduct
-{
+class BookProduct extends ShopProduct{
+    
+    public function __construct(
+        public string $title,
+        public string $author_sur_name="",
+        public string $author_first_name="",
+        public float $price=0,
+        public int $num_pages=0)
+    {
+        
+    }
+    
  public function numberPages():int{
         return $this->num_pages;
          }
@@ -56,9 +74,8 @@ class BookProduct extends ShopProduct
         
              public function write():string
              {
-                 $base="tekst {$this->title} \n" .
-                "Ime autora{$this->author_first_name} Prezime Autora: {$this->author_sur_name}\n" .
-                "Broj strana {$this->num_pages} Cena{$this->price}\n\n";
+                 $base=parent::write() .
+                "Broj strana {$this->num_pages} \n\n" ;
                  return $base;
              }
          
@@ -66,10 +83,16 @@ class BookProduct extends ShopProduct
 
 $book1 = new BookProduct("Book One", "Edis", "Mekic", 10.99, 250);
 $book2 = new BookProduct("Book Two", "John", "Doe", 15.99, 320);
+$book3 = new ShopProduct("Book One", "Edis", "Mekic", 10.99, 250);
+
+
 $cd1 = new CdProduct("CD One", "Artist", "LastName", 12.49, 60);
 
-echo $book1->write();
+
 echo $cd1->write();
+echo $book1->write();
+
+
 
 
 
