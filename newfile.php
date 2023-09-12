@@ -48,6 +48,10 @@ class CdProduct extends ShopProduct {
         $base = parent::write() . "Duzina reprodukcije {$this->play_lenght} \n\n";
         return $base;
     }
+    
+    public function CenasaPopustom(): float {
+        return ($this->price - $this->discount); // Fix variable names
+    }
 }
 
 class BookProduct extends ShopProduct {
@@ -84,6 +88,7 @@ $cd1 = new CdProduct("CD One", "Artist", "LastName", 12.49, 542, 30);
 
 echo $book1->write();
 echo $book1->CenasaPopustom();
+echo $cd1->CenasaPopustom();
 
 
 
