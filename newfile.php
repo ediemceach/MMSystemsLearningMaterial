@@ -7,6 +7,7 @@ class ExampeStatic
     public static int $aNum=0;
     public static function sayHello(): void
     {
+        self::$aNum++;
         print "hello";
     }
     
@@ -14,6 +15,7 @@ class ExampeStatic
 
 
 print ExampeStatic::$aNum;
-ExampeStatic::sayhello();
+ExampeStatic::sayHello();
+print ExampeStatic::$aNum;
 
 ?>
