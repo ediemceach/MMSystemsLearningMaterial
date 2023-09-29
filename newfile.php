@@ -31,7 +31,7 @@ class ShopProduct {
     }
     
 
-public function getPrice(): string {
+public function getPrice(): int|float {
 return $this->price;
 }
     
@@ -112,7 +112,7 @@ class ShopProductWriter {
     }
     
     
-    public function printgetSummary(ShopProduct $ShopProduct): string {
+    public function printgetDiscount(ShopProduct $ShopProduct): string {
         $discountedPrice = $ShopProduct->getPrice() - ($ShopProduct->getPrice() * $ShopProduct->getDiscount());
 
         return $discountedPrice;
