@@ -73,41 +73,27 @@ class BookProduct extends ShopProduct {
     }
 }
 
-class ShopProductWriter {
-    public function printName(ShopProduct $shopProduct): string {
-        return $shopProduct->getFirstName();
+abstract class ShopProductWriter {
+    
+    abstract public function printName(ShopProduct $product): string;
+    abstract public function printSurname(ShopProduct $product): string;
+    abstract public function printNameSurname(ShopProduct $product): string;
+}
+
+class printer extends ShopProductWriter {
+    public function printName(ShopProduct $product): string {
+        return $product->getFirstName();
     }
     
-    public function printSurname(ShopProduct $shopProduct): string {
-        return $shopProduct->getSurname();
+    public function printSurname(ShopProduct $product): string {
+        return $product->getSurname();
     }
     
-    public function printNameSurname(ShopProduct $shopProduct): string {
-        // Fix: Use correct method names
-        return "Author's First Name: " . $shopProduct->getFirstName() . "; Author's Last Name: " . $shopProduct->getSurname() . " \n";
+    public function printNameSurname(ShopProduct $product): string {
+        return "Author's First Name: " . $product->getFirstName() . "; Author's Last Name: " . $product->getSurname() . " \n";
     }
-    
-    public function printPlayLength(CdProduct $cdProduct): int {
-        return $cdProduct->getPlayLength();
-    }
-    
-    public function printNumberPages(BookProduct $bookProduct): int {
-        return $bookProduct->getNumberPages();
-    }
-    
-    public function printDiscountedPrice(ShopProduct $shopProduct): float {
-        $discountedPrice = $shopProduct->getPrice() - ($shopProduct->getPrice() * $shopProduct->getDiscount());
-        return $discountedPrice;
-    }
-    
-    public function printSummary(ShopProduct $shopProduct): string {
-        $base =
-        "Author's First Name: {$shopProduct->getFirstName()} Author's Last Name: {$shopProduct->getSurname()}\n" .
-        "Title: {$shopProduct->getTitle()}" .
-        "Price: {$shopProduct->getPrice()}\n";
-        return $base;
-    }
-    
+}
+
     // ...
     
     function fetchProductData($productId) {
@@ -140,13 +126,13 @@ class ShopProductWriter {
             return false; // Or handle the error in a way that makes sense for your application
         }
     }
-}
 
-// Assuming you have an instance of ShopProductWriter
-$shopProductWriter = new ShopProductWriter();
 
-// Fetch data for the product with ID 1
-$productData = $shopProductWriter->fetchProductData(1);
+    // Assuming you have an instance of ShopProductWriter
+    $shopProductWriter = new Printer();
+    
+    // Fetch data for the product with ID 1
+    $productData = fetchProductData(2);
 
 // Check if data is fetched successfully
 if ($productData) {
@@ -181,7 +167,7 @@ if ($productData) {
     }
     
     // Get the summary
-    $summary = $shopProductWriter->printSummary($product);
+    $summary = $shopProductWriter->printNameSurname($product);
     
     // Output the summary
     echo $summary;
