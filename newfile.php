@@ -74,27 +74,40 @@ class BookProduct extends ShopProduct {
 }
 
 abstract class ShopProductWriter {
+    protected array $products = [];
+    
+    public function addProduct(ShopProduct $shopProduct): void {
+        $this->products[] = $shopProduct;
+    }
     
     abstract public function printName(ShopProduct $product): string;
     abstract public function printSurname(ShopProduct $product): string;
     abstract public function printNameSurname(ShopProduct $product): string;
 }
 
-class printer extends ShopProductWriter {
-    public function printName(ShopProduct $product): string {
-        return $product->getFirstName();
-    }
-    
-    public function printSurname(ShopProduct $product): string {
-        return $product->getSurname();
-    }
-    
-    public function printNameSurname(ShopProduct $product): string {
-        return "Author's First Name: " . $product->getFirstName() . "; Author's Last Name: " . $product->getSurname() . " \n";
+class XMLWriter extends ShopProductWriter {
+    public function write(): void {
+        $writer = new \XMLWriter();
+        $writer->openMemory();
+        $writer->startDocument('1.0', 'UTF-8');
+        $writer->startElement("products");
+        
+        foreach ($this->products as $shopProduct) {
+            $writer->startElement("product");
+            $writer->writeAttribute("title", $shopProduct->getTitle());
+            $writer->startElement("summary");
+            $writer->text($shopProduct->getSurname());
+            $writer->endElement(); // summary
+            $writer->endElement(); // product
+        }
+        
+        $writer->endElement(); // products
+        $writer->endDocument();
+        print $writer->flush();
     }
 }
 
-    // ...
+
     
     function fetchProductData($productId) {
         try {
