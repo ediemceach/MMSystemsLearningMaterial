@@ -78,6 +78,13 @@ abstract class ShopProductWriter {
     abstract public function printName(ShopProduct $product): string;
     abstract public function printSurname(ShopProduct $product): string;
     abstract public function printNameSurname(ShopProduct $product): string;
+    abstract public function printPlayLength(ShopProduct $product): int;
+    abstract public function printNumberPages(ShopProduct $product): int;
+    abstract public function printDiscountedPrice(ShopProduct $product): float;
+    abstract public function printSummary(ShopProduct $product): string;
+    
+    
+    
 }
 
 class printer extends ShopProductWriter {
@@ -92,7 +99,31 @@ class printer extends ShopProductWriter {
     public function printNameSurname(ShopProduct $product): string {
         return "Author's First Name: " . $product->getFirstName() . "; Author's Last Name: " . $product->getSurname() . " \n";
     }
+    
+    public function printPlayLength(ShopProduct $shopProduct): int {
+        return $cdProduct->getPlayLength();
+    }
+    
+    public function printNumberPages(ShopProduct $shopProduct): int {
+        return $bookProduct->getNumberPages();
+    }
+    
+    public function printDiscountedPrice(ShopProduct $shopProduct): float {
+        $discountedPrice = $shopProduct->getPrice() - ($shopProduct->getPrice() * $shopProduct->getDiscount());
+        return $discountedPrice;
+    }
+    
+    public function printSummary(ShopProduct $shopProduct): string {
+        $base =
+        "Author's First Name: {$shopProduct->getFirstName()} Author's Last Name: {$shopProduct->getSurname()}\n" .
+        "Title: {$shopProduct->getTitle()}" .
+        "Price: {$shopProduct->getPrice()}\n";
+        return $base;
+    }
 }
+
+
+
 
     // ...
     
@@ -167,7 +198,7 @@ if ($productData) {
     }
     
     // Get the summary
-    $summary = $shopProductWriter->printNameSurname($product);
+    $summary = $shopProductWriter->printSummary($product);
     
     // Output the summary
     echo $summary;
