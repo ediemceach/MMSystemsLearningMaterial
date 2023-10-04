@@ -5,7 +5,7 @@ class ShopProduct {
         private ?string $authorSurName = null,
         private ?string $authorFirstName = null,
         protected int|float $price = 0
-        ) {
+    ) {
     }
     
     private int|float $discount;
@@ -44,9 +44,9 @@ class CdProduct extends ShopProduct {
         ?string $authorFirstName = null,
         float $price = 0,
         int $playLength = 0
-        ) {
-            parent::__construct($title, $authorSurName, $authorFirstName, $price);
-            $this->playLength = $playLength;
+    ) {
+        parent::__construct($title, $authorSurName, $authorFirstName, $price);
+        $this->playLength = $playLength;
     }
     
     public function getPlayLength(): int {
@@ -63,9 +63,9 @@ class BookProduct extends ShopProduct {
         ?string $authorFirstName = null,
         float $price = 0,
         int $numPages = 0
-        ) {
-            parent::__construct($title, $authorSurName, $authorFirstName, $price);
-            $this->numPages = $numPages;
+    ) {
+        parent::__construct($title, $authorSurName, $authorFirstName, $price);
+        $this->numPages = $numPages;
     }
     
     public function getNumberPages(): int {
@@ -77,6 +77,10 @@ abstract class ShopProductWriter {
     
     protected array $products = [];
     
+    public function addProduct(ShopProduct $shopProduct): void {
+        $this->products[] = $shopProduct;
+    }
+    
     abstract public function printName(ShopProduct $product): string;
     abstract public function printSurname(ShopProduct $product): string;
     abstract public function printNameSurname(ShopProduct $product): string;
@@ -85,11 +89,28 @@ abstract class ShopProductWriter {
     abstract public function printDiscountedPrice(ShopProduct $product): float;
     abstract public function printSummary(ShopProduct $product): string;
     
-    
-    
+    public function printXML(): void {
+        $writer = new \XMLWriter();
+        $writer->openMemory();
+        $writer->startDocument('1.0', 'UTF-8');
+        $writer->startElement("products");
+        
+        foreach ($this->products as $shopProduct) {
+            $writer->startElement("product");
+            $writer->writeAttribute("title", $shopProduct->getTitle());
+            $writer->startElement("summary");
+            $writer->text($this->printSummary($shopProduct));
+            $writer->endElement();
+            $writer->endElement();
+        }
+        
+        $writer->endElement();
+        $writer->endDocument();
+        print $writer->flush();
+    }
 }
 
-class printer extends ShopProductWriter {
+class Printer extends ShopProductWriter {
     public function printName(ShopProduct $product): string {
         return $product->getFirstName();
     }
@@ -103,11 +124,11 @@ class printer extends ShopProductWriter {
     }
     
     public function printPlayLength(ShopProduct $shopProduct): int {
-        return $cdProduct->getPlayLength();
+        return $shopProduct->getPlayLength();
     }
     
     public function printNumberPages(ShopProduct $shopProduct): int {
-        return $bookProduct->getNumberPages();
+        return $shopProduct->getNumberPages();
     }
     
     public function printDiscountedPrice(ShopProduct $shopProduct): float {
@@ -117,75 +138,51 @@ class printer extends ShopProductWriter {
     
     public function printSummary(ShopProduct $shopProduct): string {
         $base =
-        "Author's First Name: {$shopProduct->getFirstName()} Author's Last Name: {$shopProduct->getSurname()}\n" .
-        "Title: {$shopProduct->getTitle()}" .
-        "Price: {$shopProduct->getPrice()}\n";
+            "Author's First Name: {$shopProduct->getFirstName()} Author's Last Name: {$shopProduct->getSurname()}\n" .
+            "Title: {$shopProduct->getTitle()}" .
+            "Price: {$shopProduct->getPrice()}\n";
         return $base;
-    }
-    
-    public function printXML():void{
-        $writer=new \XMLWriter();
-        $writer->openMemory();
-        $writer->startDocument('1.0', 'UTF-8');
-        $writer->startElement("products");
-        foreach ($this->products as $shopProduct)
-        {
-            $writer->startElement("product");
-            $writer->writeAttribure("title", $shopProduct->getTitle());
-            $writer->startElement("summary");
-            $writer->text($shopProduct->printSummary());
-            $writer->endElement();
-            $writer->endElement();
-            
-        }
-        $writer->endElement();
-        $writer->endDocument();
-        print $writer->flush();
     }
 }
 
+// ...
 
-
-
-    // ...
-    
-    function fetchProductData($productId) {
-        try {
-            // Create a PDO database connection
-            $db = new PDO('sqlite:shopproduct.db');
-            
-            // Define the SQL query to fetch product data based on the product ID
-            $query = "SELECT * FROM products WHERE id = :id";
-            
-            // Prepare the SQL statement
-            $statement = $db->prepare($query);
-            
-            // Bind the product ID parameter
-            $statement->bindParam(':id', $productId, PDO::PARAM_INT);
-            
-            // Execute the query
-            $statement->execute();
-            
-            // Fetch the result as an associative array
-            $productData = $statement->fetch(PDO::FETCH_ASSOC);
-            
-            // Close the database connection
-            $db = null;
-            
-            return $productData;
-        } catch (PDOException $e) {
-            // Handle any database connection errors
-            echo "Error: " . $e->getMessage();
-            return false; // Or handle the error in a way that makes sense for your application
-        }
+function fetchProductData($productId) {
+    try {
+        // Create a PDO database connection
+        $db = new PDO('sqlite:shopproduct.db');
+        
+        // Define the SQL query to fetch product data based on the product ID
+        $query = "SELECT * FROM products WHERE id = :id";
+        
+        // Prepare the SQL statement
+        $statement = $db->prepare($query);
+        
+        // Bind the product ID parameter
+        $statement->bindParam(':id', $productId, PDO::PARAM_INT);
+        
+        // Execute the query
+        $statement->execute();
+        
+        // Fetch the result as an associative array
+        $productData = $statement->fetch(PDO::FETCH_ASSOC);
+        
+        // Close the database connection
+        $db = null;
+        
+        return $productData;
+    } catch (PDOException $e) {
+        // Handle any database connection errors
+        echo "Error: " . $e->getMessage();
+        return false; // Or handle the error in a way that makes sense for your application
     }
+}
 
+// Assuming you have an instance of ShopProductWriter
+$shopProductWriter = new Printer();
 
-    // Assuming you have an instance of ShopProductWriter
-    $shopProductWriter = new Printer();
-    
-    // Fetch data for the product with ID 1
-    $productData = fetchProductData(2);
+// Fetch data for the product with ID 2
+$productData = fetchProductData(2);
 
 // Check if data is fetched successfully
 if ($productData) {
@@ -200,7 +197,7 @@ if ($productData) {
             $productData['name'],
             $productData['price'],
             $productData['numpages']
-            );
+        );
         // Set additional properties specific to BookProduct
         $product->setDiscount($productData['discount']);
     } elseif ($productType === 'cd') {
@@ -210,7 +207,7 @@ if ($productData) {
             $productData['name'],
             $productData['price'],
             $productData['playlength']
-            );
+        );
         // Set additional properties specific to CdProduct
         // (if any, for now, CdProduct doesn't have additional properties)
     } else {
@@ -219,12 +216,12 @@ if ($productData) {
         exit;
     }
     
-    // Get the summary
-    $summary = $shopProductWriter->printXML($product);
-    
-    // Output the summary
-    echo $summary;
+    // Add the product to the Printer's products array
+    $shopProductWriter->addProduct($product);
+
+    // Print XML for all products
+    $shopProductWriter->printXML();
 } else {
-    echo "Product with ID 1 not found.";
+    echo "Product with ID 2 not found.";
 }
 ?>
