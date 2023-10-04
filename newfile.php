@@ -75,6 +75,8 @@ class BookProduct extends ShopProduct {
 
 abstract class ShopProductWriter {
     
+    protected array $products = [];
+    
     abstract public function printName(ShopProduct $product): string;
     abstract public function printSurname(ShopProduct $product): string;
     abstract public function printNameSurname(ShopProduct $product): string;
@@ -119,6 +121,26 @@ class printer extends ShopProductWriter {
         "Title: {$shopProduct->getTitle()}" .
         "Price: {$shopProduct->getPrice()}\n";
         return $base;
+    }
+    
+    public function printXML():void{
+        $writer=new \XMLWriter();
+        $writer->openMemory();
+        $writer->startDocument('1.0', 'UTF-8');
+        $writer->startElement("products");
+        foreach ($this->products as $shopProduct)
+        {
+            $writer->startElement("product");
+            $writer->writeAttribure("title", $shopProduct->getTitle());
+            $writer->startElement("summary");
+            $writer->text($shopProduct->printSummary());
+            $writer->endElement();
+            $writer->endElement();
+            
+        }
+        $writer->endElement();
+        $writer->endDocument();
+        print $writer->flush();
     }
 }
 
@@ -198,7 +220,7 @@ if ($productData) {
     }
     
     // Get the summary
-    $summary = $shopProductWriter->printSummary($product);
+    $summary = $shopProductWriter->printXML($product);
     
     // Output the summary
     echo $summary;
