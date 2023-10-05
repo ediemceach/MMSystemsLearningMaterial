@@ -5,6 +5,10 @@ Title: title1Price: 19.99
 Title: title2Price: 29.99
 </summary></product><product title="Album1"><summary>Author's First Name: Author1 Author's Last Name: 
 Title: Album1Price: 9.99
+</summary></product><product title="Album1"><summary>Author's First Name: Author1 Author's Last Name: 
+Title: Album1Price: 9.99
+</summary></product><product title="Album2"><summary>Author's First Name: Author2 Author's Last Name: 
+Title: Album2Price: 19.99
 </summary></product><product title="Album2"><summary>Author's First Name: Author2 Author's Last Name: 
 Title: Album2Price: 19.99
 </summary></product></products>
