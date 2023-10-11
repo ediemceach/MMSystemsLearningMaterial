@@ -60,12 +60,7 @@ class ShopProduct implements ClassDataGetter {
     }
     
     public function getSummary(): string {
-        $base =
-        "AFN: {$this->getFirstName()} Author's Last Name: {$this->getSurname()}\n" .
-        "Title: {$this->getTitle()}\n" .
-        "Price: {$this->getPrice()}\n" .
-        "Number pages: {$this->getNumPages()}\n";
-        return $base;
+        return $this->getSummary;
     }
 }
 
