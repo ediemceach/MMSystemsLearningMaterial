@@ -25,6 +25,13 @@ trait PriceUtilities
     }
 }
 
+trait TaxTools{
+    public function calculateTax():float
+    {
+        return 222;
+    }
+}
+
 trait IdentityTrait
 {
     public function generateID(): string{
@@ -36,6 +43,7 @@ class ShopProduct implements ClassDataGetter, IdentityObject {
     
     use PriceUtilities;
     use IdentityTrait;
+    use TaxTools {TaxTools::calculateTax insteadof PriceUtilities;}
     
     private int|float $discount;
     protected int|float $playLength;
