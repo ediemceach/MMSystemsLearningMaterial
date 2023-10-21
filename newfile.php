@@ -19,7 +19,7 @@ class ShopProduct implements ClassDataGetter {
     protected ?string $authorSurName;
     protected ?string $authorFirstName;
     protected int|float $price;
-    private int tax $taxrate=20;
+    private int $taxrate=20;
     
     public function __construct(
         private string $title,
@@ -31,7 +31,7 @@ class ShopProduct implements ClassDataGetter {
             $this->authorFirstName = $authorFirstName;
             $this->price = $price;
     }
-    q
+    
     public function getFirstName(): ?string {
         return $this->authorFirstName;
     }
@@ -64,9 +64,9 @@ class ShopProduct implements ClassDataGetter {
         return $this->getSummary;
     }
     
-    public function calculateTax(float $price):float
+    public function calculateTax():float
     {
-        return (($this->taxrate/100)*price);
+        return (($this->taxrate/100)*$this->price);
     }
 }
 
@@ -164,13 +164,33 @@ class ShopProductPrinter  {
     }
 }
 
+abstract class Service
+{
+// Dodata nova abstraktnq klasa usluge    
+    
+}
+
+class UtilityService extends Service
+{
+    public int $taxrate=20;
+    
+    public function calculateTax(float $price):float
+    {
+        return (($this->taxrate/100)*price);
+    }
+}
+
 // Usage example
 $cdProduct = new CDProduct('CD Title', 'Author', 'John Doe', 15.99, 120);
 $bookProduct = new BookProduct('Book Title', 'Author', 'Jane Doe', 19.99, 300);
 
 echo $cdProduct->getSummary();
+echo $cdProduct->calculateTax();
+
 
 $writer = new ShopProductPrinter();
 echo $writer->printFirstName($cdProduct);
+
+
 
 ?>
