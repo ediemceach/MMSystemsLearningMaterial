@@ -11,6 +11,10 @@ interface ClassDataGetter {
     public function getSummary(): string;
 }
 
+interface IdentityObject{
+    public function generateID(): string;
+}
+
 trait PriceUtilities
 {
     private int $taxrate=20;
@@ -21,9 +25,17 @@ trait PriceUtilities
     }
 }
 
-class ShopProduct implements ClassDataGetter {
+trait IdentityTrait
+{
+    public function generateID(): string{
+        return uniqid();
+    }
+}
+
+class ShopProduct implements ClassDataGetter, IdentityObject {
     
     use PriceUtilities;
+    use IdentityTrait;
     
     private int|float $discount;
     protected int|float $playLength;
@@ -183,6 +195,7 @@ abstract class Service
 class UtilityService extends Service
 {
     use PriceUtilities;
+    use IdentityTrait;
 
 }
 
