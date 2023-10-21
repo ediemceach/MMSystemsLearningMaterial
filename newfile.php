@@ -11,7 +11,20 @@ interface ClassDataGetter {
     public function getSummary(): string;
 }
 
+trait PriceUtilities
+{
+    private int $taxrate=20;
+    
+    public function calculateTax():float
+    {
+        return (($this->taxrate/100)*$this->price);
+    }
+}
+
 class ShopProduct implements ClassDataGetter {
+    
+    use PriceUtilities;
+    
     private int|float $discount;
     protected int|float $playLength;
     protected int|float $numPages;
@@ -19,7 +32,7 @@ class ShopProduct implements ClassDataGetter {
     protected ?string $authorSurName;
     protected ?string $authorFirstName;
     protected int|float $price;
-    private int $taxrate=20;
+    
     
     public function __construct(
         private string $title,
@@ -64,10 +77,7 @@ class ShopProduct implements ClassDataGetter {
         return $this->getSummary;
     }
     
-    public function calculateTax():float
-    {
-        return (($this->taxrate/100)*$this->price);
-    }
+
 }
 
 class CDProduct extends ShopProduct {
@@ -172,12 +182,8 @@ abstract class Service
 
 class UtilityService extends Service
 {
-    public int $taxrate=20;
-    
-    public function calculateTax(float $price):float
-    {
-        return (($this->taxrate/100)*price);
-    }
+    use PriceUtilities;
+
 }
 
 // Usage example
