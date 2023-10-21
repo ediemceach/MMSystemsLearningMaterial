@@ -19,6 +19,7 @@ class ShopProduct implements ClassDataGetter {
     protected ?string $authorSurName;
     protected ?string $authorFirstName;
     protected int|float $price;
+    private int tax $taxrate=20;
     
     public function __construct(
         private string $title,
@@ -30,7 +31,7 @@ class ShopProduct implements ClassDataGetter {
             $this->authorFirstName = $authorFirstName;
             $this->price = $price;
     }
-    
+    q
     public function getFirstName(): ?string {
         return $this->authorFirstName;
     }
@@ -61,6 +62,11 @@ class ShopProduct implements ClassDataGetter {
     
     public function getSummary(): string {
         return $this->getSummary;
+    }
+    
+    public function calculateTax(float $price):float
+    {
+        return (($this->taxrate/100)*price);
     }
 }
 
