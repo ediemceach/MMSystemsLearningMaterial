@@ -15,13 +15,14 @@ interface IdentityObject{
     public function generateID(): string;
 }
 
-trait PriceUtilities
-{
-    private int $taxrate=20;
+trait PriceUtilities {
+    private static int $taxrate = 20;
     
-    public function calculateTax():float
+    // Changed to a static method and added $price parameter
+    public static function calculateTax(float $price): float
     {
-        return (($this->taxrate/100)*$this->price);
+        // Use self:: to access static property
+        return ((self::$taxrate / 100) * $price);
     }
 }
 
@@ -94,7 +95,7 @@ class ShopProduct implements ClassDataGetter, IdentityObject {
     }
     
     public function getSummary(): string {
-        return $this->getSummary;
+        return $this->getSummary();
     }
     
 
@@ -194,29 +195,16 @@ class ShopProductPrinter  {
     }
 }
 
-abstract class Service
-{
-// Dodata nova abstraktnq klasa usluge    
-    
+abstract class Service {
+    // Dodata nova abstraktnq klasa usluge
 }
 
-class UtilityService extends Service
-{
+class UtilityService extends Service {
     use PriceUtilities;
-    use IdentityTrait;
-
 }
 
 // Usage example
-$cdProduct = new CDProduct('CD Title', 'Author', 'John Doe', 15.99, 120);
-$bookProduct = new BookProduct('Book Title', 'Author', 'Jane Doe', 19.99, 300);
-
-echo $cdProduct->getSummary();
-echo $cdProduct->calculateTax();
-
-
-$writer = new ShopProductPrinter();
-echo $writer->printFirstName($cdProduct);
+echo UtilityService::calculateTax(100) . "\n";
 
 
 
