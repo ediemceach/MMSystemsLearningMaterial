@@ -1,5 +1,4 @@
 <?php
-
 interface ClassDataGetter {
     public function getFirstName(): ?string;
     public function getSurname(): ?string;
@@ -16,47 +15,24 @@ interface IdentityObject{
 }
 
 trait priceCalculator {
-    private static int $taxrate = 20;
-    private static int $discount = 20;
+    private static float $tax = 0.20; // 20% tax rate
+    private static float $discount = 0.10; // 10% discount rate
     
-    // Changed to a static method and added $price parameter
-    public static function calculateTax(float $price): float
-    {
-        // Use self:: to access static property
-        return ((self::$taxrate / 100) * $price);
+    public static function calculateTax(float $price): float {
+        return self::$tax * $price;
     }
-    
-    public static function calculatePriceWithTax(float $price): float
-    {
-    return((self::$taxrate/100)*$price+$price);
-}
-    
-public static function calculateDiscount(float $price): float
-{
-    return((self::$discount/100)*$price);
 }
 
-
-public static function calculateFinalPrice(float $price): float
-{
-    return((self::$discount/100)*$price);
-}
-}
-
-
-
-class ShopProduct implements ClassDataGetter{
+class ShopProduct implements ClassDataGetter {
     
     use priceCalculator;
     
-
     protected int|float $playLength;
     protected int|float $numPages;
     protected string $summary;
     protected ?string $authorSurName;
     protected ?string $authorFirstName;
     protected int|float $price;
-    
     
     public function __construct(
         private string $title,
@@ -98,10 +74,12 @@ class ShopProduct implements ClassDataGetter{
     }
     
     public function getSummary(): string {
-        return $this->getSummary();
+        return $this->summary;
     }
     
-
+    public function getTax(): float {
+        return self::calculateTax($this->getPrice());
+    }
 }
 
 class CDProduct extends ShopProduct {
@@ -148,71 +126,52 @@ class BookProduct extends ShopProduct {
     }
 }
 
-class ShopProductPrinter  {
+class ShopProductPrinter {
     protected array $products = [];
     
-    public function addProduct(ShopProduct $shopProduct): void
-    {
+    public function addProduct(ShopProduct $shopProduct): void {
         $this->products[] = $shopProduct;
     }
     
-    public function printFirstName(ShopProduct $product): string
-    {
-        $base ="Author name: {$product->getFirstName()} \n";
+    public function printFirstName(ShopProduct $product): string {
+        $base = "Author name: {$product->getFirstName()} \n";
         return $base;
     }
     
-    public function printSurname(ShopProduct $product): ?string
-    {
+    public function printSurname(ShopProduct $product): ?string {
         return $product->getSurname();
     }
     
-    public function printPrice(ShopProduct $product): int|float
-    {
+    public function printPrice(ShopProduct $product): int|float {
         return $product->getPrice();
     }
     
-    public function printTitle(ShopProduct $product): string
-    {
+    public function printTitle(ShopProduct $product): string {
         return $product->getTitle();
     }
     
-    public function printDiscount(ShopProduct $product): int|float
-    {
+    public function printDiscount(ShopProduct $product): int|float {
         return $product->getDiscount();
     }
     
-    public function printPlayLength(ShopProduct $product): int|float
-    {
+    public function printPlayLength(ShopProduct $product): int|float {
         return $product->getPlayLength();
     }
     
-    public function printNumPages(ShopProduct $product): int|float
-    {
+    public function printNumPages(ShopProduct $product): int|float {
         return $product->getNumPages();
     }
     
-    public function printSummary(ShopProduct $product): string
-    {
-        return $product->getNumPages();
+    public function printSummary(ShopProduct $product): string {
+        return $product->getSummary();
     }
 }
 
+$product = new ShopProduct("Product", "Author", "John Doe", 29.99);
+echo $product->getTax(); // Output: 6.0 (20% tax on $29.99)
 
+$cdProduct = new CDProduct("CD Title", "Artist", "Jane Doe", 14.99, 60);
+$bookProduct = new BookProduct("Book Title", "Author", "John Doe", 29.99, 300);
 
-
-abstract class FinancialData {
-    // Dodata nova abstraktnq klasa usluge
-}
-
-class FinancialDataPrinter extends FinancialData{
-    use priceCalculator;
-    
-}
-
-// Usage example
-echo priceCalculator::calculateTax(120) . "\n";
-
-
-
-?>
+echo "Tax for CD Product: " . $cdProduct->calculateTax($cdProduct->getPrice()) . "\n";
+echo "Tax for Book Product: " . $bookProduct->calculateTax($bookProduct->getPrice()) . "\n";?>
