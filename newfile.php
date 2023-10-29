@@ -15,8 +15,9 @@ interface IdentityObject{
     public function generateID(): string;
 }
 
-trait PriceUtilities {
+trait priceCalculator {
     private static int $taxrate = 20;
+    private static int $discount = 20;
     
     // Changed to a static method and added $price parameter
     public static function calculateTax(float $price): float
@@ -24,29 +25,31 @@ trait PriceUtilities {
         // Use self:: to access static property
         return ((self::$taxrate / 100) * $price);
     }
-}
-
-trait TaxTools{
-    public function calculateTax():float
+    
+    public static function calculatePriceWithTax(float $price): float
     {
-        return 222;
-    }
+    return((self::$taxrate/100)*$price+$price);
 }
-
-trait IdentityTrait
+    
+public static function calculateDiscount(float $price): float
 {
-    public function generateID(): string{
-        return uniqid();
-    }
+    return((self::$discount/100)*$price);
 }
 
-class ShopProduct implements ClassDataGetter, IdentityObject {
+
+public static function calculateFinalPrice(float $price): float
+{
+    return((self::$discount/100)*$price);
+}
+}
+
+
+
+class ShopProduct implements ClassDataGetter{
     
-    use PriceUtilities;
-    use IdentityTrait;
-    use TaxTools {TaxTools::calculateTax insteadof PriceUtilities;}
+    use priceCalculator;
     
-    private int|float $discount;
+
     protected int|float $playLength;
     protected int|float $numPages;
     protected string $summary;
@@ -195,16 +198,20 @@ class ShopProductPrinter  {
     }
 }
 
-abstract class Service {
+
+
+
+abstract class FinancialData {
     // Dodata nova abstraktnq klasa usluge
 }
 
-class UtilityService extends Service {
-    use PriceUtilities;
+class FinancialDataPrinter extends FinancialData{
+    use priceCalculator;
+    
 }
 
 // Usage example
-echo UtilityService::calculateTax(100) . "\n";
+echo priceCalculator::calculateTax(120) . "\n";
 
 
 
