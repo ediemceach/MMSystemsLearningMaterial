@@ -8,6 +8,7 @@ interface ClassDataGetter {
     public function getPlayLength(): int|float;
     public function getNumPages(): int|float;
     public function getSummary(): string;
+    public function getTax():float;
 }
 
 interface IdentityObject{
@@ -15,13 +16,18 @@ interface IdentityObject{
 }
 
 trait priceCalculator {
-    private static float $tax = 0.20; // 20% tax rate
-    private static float $discount = 0.10; // 10% discount rate
     
-    public static function calculateTax(float $price): float {
-        return self::$tax * $price;
+    
+    
+    public function calculateTax(float $price): float {
+        return $price;
+    }
+    
+    public function calculateDiscount(float $price): float {
+        return $this->discountRate * $price;
     }
 }
+
 
 class ShopProduct implements ClassDataGetter {
     
@@ -33,16 +39,23 @@ class ShopProduct implements ClassDataGetter {
     protected ?string $authorSurName;
     protected ?string $authorFirstName;
     protected int|float $price;
+    protected float $taxRate;
+    protected float $discountRate;
     
     public function __construct(
         private string $title,
         ?string $authorSurName = null,
         ?string $authorFirstName = null,
-        int|float $price = 0
+        int|float $price = 0,
+        float $taxRate,
+        float $discount
         ) {
+            $this->title="";
             $this->authorSurName = $authorSurName;
             $this->authorFirstName = $authorFirstName;
             $this->price = $price;
+            $this->taxRate=0.20;
+            $this->discountRate=0;
     }
     
     public function getFirstName(): ?string {
@@ -78,20 +91,25 @@ class ShopProduct implements ClassDataGetter {
     }
     
     public function getTax(): float {
-        return self::calculateTax($this->getPrice());
+        return $this->taxRate;
     }
 }
 
 class CDProduct extends ShopProduct {
+    
     public function __construct(
         string $title,
         ?string $authorSurName = null,
         ?string $authorFirstName = null,
         float $price = 0,
-        int $playLength = 0
+        int $playLength = 0,
+        int $numberOfTracks = 0,
+        float $tax = 0.20,
+        float $discount = 0.10
         ) {
-            parent::__construct($title, $authorSurName, $authorFirstName, $price);
+            parent::__construct($title, $authorSurName, $authorFirstName, $price, $tax, $discount);
             $this->playLength = $playLength;
+            $this->numberOfTracks = $numberOfTracks;
     }
     
     public function getSummary(): string {
@@ -110,10 +128,14 @@ class BookProduct extends ShopProduct {
         ?string $authorSurName = null,
         ?string $authorFirstName = null,
         float $price = 0,
-        int $numPages = 0
+        int $numPages = 0,
+        string $genre = '',
+        float $tax = 0.20,
+        float $discount = 0.10
         ) {
-            parent::__construct($title, $authorSurName, $authorFirstName, $price);
+            parent::__construct($title, $authorSurName, $authorFirstName, $price, $taxRate, $discountRate);
             $this->numPages = $numPages;
+            $this->genre = $genre;
     }
     
     public function getSummary(): string {
@@ -167,11 +189,25 @@ class ShopProductPrinter {
     }
 }
 
-$product = new ShopProduct("Product", "Author", "John Doe", 29.99);
-echo $product->getTax(); // Output: 6.0 (20% tax on $29.99)
+class FinancialDataPrinter {
+    use priceCalculator;
+    
+    public function printTaxValue(ShopProduct $product): void {
+        echo "Tax rate: " . ($product->getTax() * 100) . "%\n";
+        echo "Tax value for {$product->getTitle()}: " . $this->calculateTax($product->getPrice()) . "\n";
+    }
+    
 
-$cdProduct = new CDProduct("CD Title", "Artist", "Jane Doe", 14.99, 60);
-$bookProduct = new BookProduct("Book Title", "Author", "John Doe", 29.99, 300);
+}
 
-echo "Tax for CD Product: " . $cdProduct->calculateTax($cdProduct->getPrice()) . "\n";
-echo "Tax for Book Product: " . $bookProduct->calculateTax($bookProduct->getPrice()) . "\n";?>
+// Create an instance of FinancialDataPrinter
+$financialDataPrinter = new FinancialDataPrinter();
+
+// Create an instance of ShopProduct
+$product = new ShopProduct("Product", "Author", "John Doe", 29.99, 0.18, 0.07);
+
+// Print tax information for the product
+$financialDataPrinter->printTaxValue($product);
+
+
+?>
