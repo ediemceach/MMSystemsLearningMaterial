@@ -13,9 +13,9 @@
  * @subpackage Twenty_Twenty_One
  * @since Twenty Twenty-One 1.0
  */
+?>
+<?phpget_header(); /** Ovaj deo koda uzima podatke iz PHP fajla geader.php i implementira u glavnu stranu nase teme */?> 
 
-get_header(); ?>
 
 
-
-get_footer();
+<?phpget_footer();  /** Ovaj deo koda uzima podatke iz PHP fajla footer.php i implementira u glavnu stranu nase teme */?>
