@@ -39,13 +39,21 @@
 echo 'Whoa nelly, this is a single post page!';
 } ?>
 
-<?php if (is_home()|| is_archive()) : ?>
+  
+  
+  <?php if (is_home() || is_archive()) { ?>
     <div class="ad-block">
         <a href="http://tdh.me" title="Buy the book!">
             Did you know I wrote another book as well?<br />
             <strong>Get Smashing WordPress: Beyond the Blog</strong>
         </a>
     </div>
-<?php endif; ?>
+<?php } else { ?>
+    <div class="ad-block">
+        Want to <a href="/advertise" title="Advertise here!">advertise here?</a>
+    </div>
+<?php } ?>
+  
+  
 
 <?phpget_footer();  /** Ovaj deo koda uzima podatke iz PHP fajla footer.php i implementira u glavnu stranu nase teme */?>
