@@ -23,6 +23,7 @@
 <div id=”container”>
 <div id=”content” role=”main”>
 
+
 <?php get_template_part('loop'); ?>
 
 
@@ -32,6 +33,20 @@
 
 <?php get_sidebar(); ?>
 
+<?php bloginfo('name'); ?>
+<?php bloginfo('urk'); ?>
+<?php the_title('<h1>','<h1>'); ?>
+<?php if (is_single()) {
+echo 'Whoa nelly, this is a single post page!';
+} ?>
 
+<?php if (is_home()) : ?>
+    <div class="ad-block">
+        <a href="http://tdh.me" title="Buy the book!">
+            Did you know I wrote another book as well?<br />
+            <strong>Get Smashing WordPress: Beyond the Blog</strong>
+        </a>
+    </div>
+<?php endif; ?>
 
 <?phpget_footer();  /** Ovaj deo koda uzima podatke iz PHP fajla footer.php i implementira u glavnu stranu nase teme */?>
