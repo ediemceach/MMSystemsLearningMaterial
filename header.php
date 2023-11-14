@@ -10,6 +10,9 @@
  */
 ?><!DOCTYPE html>
 
+
+
+
 <?php
 	/*
 	 * We add some JavaScript to pages with the comment form
@@ -27,7 +30,4 @@ if ( is_singular() && get_option( 'thread_comments' ) ) {
 	 */
 	wp_head();
 ?>
-</head>
 
-
-	<div id="main">

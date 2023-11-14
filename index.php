@@ -51,3 +51,11 @@ echo 'Whoa nelly, this is a single post page!';
 
 <?phpget_footer();  /** Ovaj deo koda uzima podatke iz PHP fajla footer.php i implementira u glavnu stranu nase teme */?>
 
+<?php if ( !dynamic_sidebar('Footer') ) : ?>
+<li>
+<h2>Hey there!</h2>
+<p>This is just a placeholder. You need to drop some widgets
+here!</p>
+</li>
+<?php endif; ?>
+
