@@ -52,3 +52,12 @@ register_sidebar( array(
     'after_title' => '</h3>',
 ) );
 ?>
+
+<?php
+add_theme_support('custom-header');
+add_theme_support('custom-background');
+add_theme_support('post-thumbnails');
+add_theme_support('menus');
+add_theme_support('automatic-feed-links');
+add_theme_support('editor-style');
+?>
