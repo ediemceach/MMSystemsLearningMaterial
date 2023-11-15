@@ -66,7 +66,13 @@ add_theme_support('editor-style');
 
 <?php
 function register_menus() {
-    register_nav_menu( 'top-navigation', __( 'Top Navigation' ) );
+    register_nav_menus(
+        array(
+            'top-navigation'      => __( 'Top Navigation' ),
+            'side-menu'           => __( 'Side Menu' ),
+            'bottom-navigation'   => __( 'Bottom Navigation' ),
+        )
+        );
 }
 
 add_action( 'init', 'register_menus' );?>

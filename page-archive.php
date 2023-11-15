@@ -25,6 +25,15 @@
     <?php endwhile; ?>
     <?php endif; ?>
 </div>
+
+<?php wp_nav_menu( array(
+    'container'       => 'li',
+    'container_class' => 'menu-sidebar',
+    'fallback_cb'     => 'wp_list_categories',
+    'theme_location'  => 'top-navigation'
+) ); ?>
+
+
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
 
