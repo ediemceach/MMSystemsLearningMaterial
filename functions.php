@@ -63,3 +63,10 @@ add_theme_support('menus');
 add_theme_support('automatic-feed-links');
 add_theme_support('editor-style');
 ?>
+
+<?php
+function register_menus() {
+    register_nav_menu( 'top-navigation', __( 'Top Navigation' ) );
+}
+
+add_action( 'init', 'register_menus' );?>
