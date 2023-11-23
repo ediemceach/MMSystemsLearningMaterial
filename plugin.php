@@ -14,31 +14,27 @@
  * Domain Path:       /public/lang
  */
 
-?>
+namespace PDEV;
 
-<?php
-/*
-Copyright (C) 2023 Edis Mekic
- 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
- 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
- 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-?>
+// Enable error reporting during development
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-<?php $path = plugin_dir_path( __FILE__  ); ?>
-<?php define( 'PDEV_DIR', plugin_dir_path( __FILE__ ) ); ?>
-<?php include plugin_dir_path( __FILE__ ) . '/src/functions.php'; ?>
+// Define the namespace
+namespace PDEV;
 
-<p><?php echo plugin_dir_path( __FILE__ ); ?></p>
-<?php echo plugin_dir_url( __FILE__ ); ?>
+// Include the necessary files
+require_once plugin_dir_path(__FILE__) . 'src/Activation.php';
+require_once plugin_dir_path(__FILE__) . 'src/functions.php';
+
+// Output path information on admin pages
+add_action('admin_notices', function () {
+    echo '<p>' . plugin_dir_path(__FILE__) . '</p>';
+});
+    
+    // Register activation hook
+    register_activation_hook(__FILE__, function () {
+        Activation::activate();
+    });
+        
+        ?>
