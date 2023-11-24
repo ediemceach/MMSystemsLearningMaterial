@@ -43,6 +43,19 @@ function pdev_create_menu() {
     
 }
 
+function pdev_create_submenu() {
+    
+    //create a submenu under Settings
+    add_submenu_page(
+        'options-general.php', // parent menu slug
+        'PDEV Plugin Settings',
+        'PDEV Settings',
+        'manage_options',
+        'pdev_plugin',
+        'pdev_plugin_option_page'
+        );
+}
+
 // Include the necessary files
 require_once plugin_dir_path(__FILE__) . 'src/Activation.php';
 require_once plugin_dir_path(__FILE__) . 'src/Deactivation.php';
@@ -67,3 +80,4 @@ add_action('admin_notices', function () {
             });
                 
                 add_action('admin_menu', 'PDEV\pdev_create_menu');
+                add_action( 'admin_menu', 'PDEV\pdev_create_submenu' );
