@@ -17,11 +17,17 @@
 // Define the namespace
 namespace PDEV;
 
+
+
 // Enable error reporting during development
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
+$options = array(
+    'color' => 'red', // Enclose color in quotes
+    'fontsize' => '120%',
+    'border' => '2px solid red'
+);
 
 function pdev_create_menu() {
     add_menu_page(
@@ -78,6 +84,8 @@ add_action('admin_notices', function () {
             register_deactivation_hook(__FILE__, function () {
                 \PDEV\Deactivation::deactivate();
             });
-                
+                add_option( 'pdev_plugin_color', 'red' );
                 add_action('admin_menu', 'PDEV\pdev_create_menu');
                 add_action( 'admin_menu', 'PDEV\pdev_create_submenu' );
+                update_option( 'pdev_plugin_options', $options );
+             
