@@ -74,6 +74,8 @@ add_action('admin_notices', function () {
     
     add_action('admin_notices', function () {
         echo '<p>' . plugin_dir_url(__FILE__) . '</p>';
+        echo $pdev_plugin_color = get_option( 'pdev_plugin_color' );
+         
     });
         
         // Register activation hook
