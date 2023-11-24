@@ -92,4 +92,21 @@ add_action('admin_notices', function () {
                 update_option( 'pdev_plugin_options', $options );
                 update_option('pdev_plugin_colour', 'blue');
                 
+                update_option( 'pdev_plugin_enabled', 1 );
+                
+                
+                update_option( 'pdev_plugin_enabled', 1 );
+                
+update_option('pdev_bool_true',true);
+update_option('pdev_bool_false',false);
+
+var_dump( get_option( 'nonexistent_option' ) );
+// bool(false)
+
+var_dump( get_option( 'pdev_bool_true' ) );
+// string(1) "1"
+
+var_dump( get_option( 'pdev_bool_false' ) );
+// bool(false)
+
              
