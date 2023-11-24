@@ -34,6 +34,13 @@ function pdev_create_menu() {
         99
         );
     
+        add_submenu_page( 'pdev-options', 'About The PDEV Plugin', 'About',
+            'manage_options', 'pdev-about', 'pdev_about_page' );
+        add_submenu_page( 'pdev-options', 'Help With The PDEV Plugin',
+            'Help', 'manage_options', 'pdev-help', 'pdev_help_page' );
+        add_submenu_page( 'pdev-options', 'Uninstall The PDEV Plugin',
+            'Uninstall', 'manage_options', 'pdev-uninstall', 'pdev_uninstall_page' );
+    
 }
 
 // Include the necessary files
