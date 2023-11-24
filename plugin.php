@@ -88,4 +88,6 @@ add_action('admin_notices', function () {
                 add_action('admin_menu', 'PDEV\pdev_create_menu');
                 add_action( 'admin_menu', 'PDEV\pdev_create_submenu' );
                 update_option( 'pdev_plugin_options', $options );
+                update_option('pdev_plugin_colour', 'blue');
+                
              
