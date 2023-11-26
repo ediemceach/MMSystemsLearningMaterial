@@ -26,3 +26,13 @@ function pdev_plugin_option_page() {
 <?php
 }
 ?>
+
+<?php
+
+$args=array(
+    'type'=>'string',
+    'sanitize_callback'=>'pdev_plugin_validate_options',
+    'default'=>NULL
+);
+
+register_setting('pdev_plugin_options', 'pdev_plugin_options', $args);
