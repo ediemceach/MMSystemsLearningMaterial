@@ -62,6 +62,19 @@ function pdev_create_submenu() {
         );
 }
 
+function pdev_plugin_create_options();
+add_option('pdev_plugin_options', array(        
+    'color'    => 'red',
+    'fontsize' => '120%',
+    'border'   => '2px solid red'));
+
+add_option( 'pdev_plugin_admin_options', array(
+    'version'          => '1.0',
+    'donate_url'       => 'https://example.com/',
+    'advanced_options' => '1'
+),
+    '', 'no' );
+
 // Include the necessary files
 require_once plugin_dir_path(__FILE__) . 'src/Activation.php';
 require_once plugin_dir_path(__FILE__) . 'src/Deactivation.php';
@@ -86,27 +99,6 @@ add_action('admin_notices', function () {
             register_deactivation_hook(__FILE__, function () {
                 \PDEV\Deactivation::deactivate();
             });
-                add_option( 'pdev_plugin_color', 'red' );
-                add_action('admin_menu', 'PDEV\pdev_create_menu');
-                add_action( 'admin_menu', 'PDEV\pdev_create_submenu' );
-                update_option( 'pdev_plugin_options', $options );
-                update_option('pdev_plugin_colour', 'blue');
-                
-                update_option( 'pdev_plugin_enabled', 1 );
-                
-                
-                update_option( 'pdev_plugin_enabled', 1 );
-                
-update_option('pdev_bool_true',true);
-update_option('pdev_bool_false',false);
 
-var_dump( get_option( 'nonexistent_option' ) );
-// bool(false)
-
-var_dump( get_option( 'pdev_bool_true' ) );
-// string(1) "1"
-
-var_dump( get_option( 'pdev_bool_false' ) );
-// bool(false)
 
              
