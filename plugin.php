@@ -1,104 +1,28 @@
 <?php
-/**
- * Plugin Name:       MojPlugin
- * Plugin URI:        https://example.com/plugins/pdev
- * Description:       Kratki opis PlugIn
- * Version:           1.0.0
- * Requires at least: 5.3
- * Requires PHP:      5.6
- * Author:            Edis Mekic
- * Author URI:        https://example.com
- * License:           GPL v2 or later
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       pdev
- * Domain Path:       /public/lang
- */
+/*
+Plugin Name: Settings API example
+Plugin URI: https://example.com/
+Description: A complete and practical example of the WordPress Settings API
+Author: Edis
+Author URI: http://wrox.com
+*/
 
-// Define the namespace
-namespace PDEV;
-
-
-
-// Enable error reporting during development
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-$options = array(
-    'color' => 'red', // Enclose color in quotes
-    'fontsize' => '120%',
-    'border' => '2px solid red'
-);
-
-function pdev_create_menu() {
-    add_menu_page(
-        'PDEV Settings Page',
-        'PDEV Settings',
-        'manage_options',
-        'pdev-options',
-        'pdev_settings_page', // Make sure this function is defined
-        'dashicons-smiley',
-        99
-        );
+function pdev_plugin_add_settings_menu() {
     
-        add_submenu_page( 'pdev-options', 'About The PDEV Plugin', 'About',
-            'manage_options', 'pdev-about', 'pdev_about_page' );
-        add_submenu_page( 'pdev-options', 'Help With The PDEV Plugin',
-            'Help', 'manage_options', 'pdev-help', 'pdev_help_page' );
-        add_submenu_page( 'pdev-options', 'Uninstall The PDEV Plugin',
-            'Uninstall', 'manage_options', 'pdev-uninstall', 'pdev_uninstall_page' );
+    add_options_page( 'PDEV Plugin Settings', 'PDEV Settings', 'manage_options',
+        'pdev_plugin', 'pdev_plugin_option_page' );
     
 }
+add_action('admin_menu','pdev_plugin_add_settings_menu');
 
-function pdev_create_submenu() {
-    
-    //create a submenu under Settings
-    add_submenu_page(
-        'options-general.php', // parent menu slug
-        'PDEV Plugin Settings',
-        'PDEV Settings',
-        'manage_options',
-        'pdev_plugin',
-        'pdev_plugin_option_page'
-        );
+// Create the option page
+function pdev_plugin_option_page() {
+    ?>
+    <div class="wrap">
+        <h2>My plugin</h2>
+        <form action="options.php" method="post">
+        </form>
+    </div>
+<?php
 }
-
-function pdev_plugin_create_options();
-add_option('pdev_plugin_options', array(        
-    'color'    => 'red',
-    'fontsize' => '120%',
-    'border'   => '2px solid red'));
-
-add_option( 'pdev_plugin_admin_options', array(
-    'version'          => '1.0',
-    'donate_url'       => 'https://example.com/',
-    'advanced_options' => '1'
-),
-    '', 'no' );
-
-// Include the necessary files
-require_once plugin_dir_path(__FILE__) . 'src/Activation.php';
-require_once plugin_dir_path(__FILE__) . 'src/Deactivation.php';
-require_once plugin_dir_path(__FILE__) . 'src/functions.php';
-
-// Output path information on admin pages
-add_action('admin_notices', function () {
-    echo '<p>' . plugin_dir_path(__FILE__) . '</p>';
-});
-    
-    add_action('admin_notices', function () {
-        echo '<p>' . plugin_dir_url(__FILE__) . '</p>';
-        echo $pdev_plugin_color = get_option( 'pdev_plugin_color' );
-         
-    });
-        
-        // Register activation hook
-        register_activation_hook(__FILE__, function () {
-            \PDEV\Activation::activate();
-        });
-            
-            register_deactivation_hook(__FILE__, function () {
-                \PDEV\Deactivation::deactivate();
-            });
-
-
-             
+?>
