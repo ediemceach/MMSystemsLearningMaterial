@@ -7,6 +7,13 @@ Author: Edis
 Author URI: http://wrox.com
 */
 
+$args = array(
+    'type'              => 'string',
+    'sanitize_callback' => 'pdev_plugin_validate_options',
+    'default'           => NULL
+);
+
+
 function pdev_plugin_add_settings_menu() {
     
     add_options_page( 'PDEV Plugin Settings', 'PDEV Settings', 'manage_options',
@@ -25,6 +32,10 @@ function pdev_plugin_option_page() {
     </div>
 <?php
 }
+
+
+
+register_setting( 'pdev_plugin_options', 'pdev_plugin_options', $args );
 ?>
 
 
