@@ -92,6 +92,19 @@ function pdev_plugin_validate_options( $input ) {
         '',
         $input['name'] );
     
+    if( $valid['name'] !== $input['name'] ) {
+        
+        
+        add_settings_error(
+            'pdev_plugin_text_string',
+            'pdev_plugin_texterror',
+            'Incorrect value entered! Please only input letters and spaces.',
+            'error'
+            );
+        
+    }
+    
     return $valid;
+
     
 }
