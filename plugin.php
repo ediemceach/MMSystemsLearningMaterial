@@ -79,5 +79,14 @@ function pdev_plugin_setting_name() {
 function pdev_plugin_options() {
 }
 
-function pdev_plugin_validate_options() {
+function pdev_plugin_validate_options( $input ) {
+    
+    $valid = array();
+    $valid['name'] = preg_replace(
+        '/[^a-zA-Z\s]/',
+        '',
+        $input['name'] );
+    
+    return $valid;
+    
 }
