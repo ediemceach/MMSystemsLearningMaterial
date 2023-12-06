@@ -42,22 +42,23 @@ $args = array(
     'sanitize_callback' => 'pdev_plugin_validate_options',
     'default'           => NULL
 );
-register_setting( 'pdev_plugin_options', 'pdev_plugin_options', $args );
+register_setting( 'reading', 'pdev_plugin_options', $args );
 
 add_settings_section(
-    'pdev_plugin_main',
+    'pdev_plugin_options',
     'PDEV Plugin Settings',
     'pdev_plugin_section_text',
-    'pdev_plugin'
+    'reading'
     );
 
 add_settings_field(
-    'pdev_plugin_name',
+    'pdev_plugin_text_string',
     'Your Name',
-    'pdev_plugin_setting_name', 
-    'pdev_plugin',
-    'pdev_plugin_main'
+    'pdev_plugin_setting_name',
+    'reading',
+    'pdev_plugin_options'
     );
+
 
 add_settings_field(
     'pdev_plugin_fav_holiday',
