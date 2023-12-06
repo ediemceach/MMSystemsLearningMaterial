@@ -20,9 +20,14 @@ function pdev_plugin_add_settings_menu() {
 // Create the option page
 function pdev_plugin_option_page() {
     ?>
-    <div class="wrap">
+    <<div class="wrap">
         <h2>My plugin</h2>
         <form action="options.php" method="post">
+            <?php 
+            settings_fields( 'pdev_plugin_options' );
+            do_settings_sections( 'pdev_plugin' );
+            submit_button( 'Save Changes', 'primary' );  
+            ?>
         </form>
     </div>
 <?php
