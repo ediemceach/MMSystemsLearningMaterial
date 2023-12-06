@@ -176,6 +176,8 @@ function pdev_plugin_validate_options( $input ) {
         
     }
     
+    $valid['fav_holiday'] = sanitize_text_field( $input['fav_holiday'] );
+    $valid['beast_mode'] = sanitize_text_field( $input['beast_mode'] );
     return $valid;
 
     
