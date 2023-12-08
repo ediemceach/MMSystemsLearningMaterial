@@ -21,12 +21,24 @@ function pdev_styling_create_menu() {
 function pdev_styling_settings() {
     ?>
     <div class="wrap">
-        <h1><span class="dashicons dashicons-smiley"></span> My Plugin</h1>
-<h2><span class="dashicons dashicons-visibility"></span> My Plugin</h2>
-<h3><span class="dashicons dashicons-universal-access"></span> My Plugin</h3>
-<h4><span class="dashicons dashicons-buddicons-replies"></span> My Plugin</h4>
-<h5><span class="dashicons dashicons-businesswoman"></span> My Plugins</h5>
-<h6><span class="dashicons dashicons-thumbs-up"></span> My Plugin</h6>
+
+    <div class="notice notice-error is-dismissible">
+        <p>There has been an error.</p>
+    </div>
+ 
+    <div class="notice notice-warning is-dismissible">
+        <p>This is a warning message.</p>
+    </div>
+ 
+    <div class="notice notice-success is-dismissible">
+        <p>This is a success message.</p>
+    </div>
+ 
+    <div class="notice notice-info is-dismissible">
+        <p>This is some information.</p>
+        
+        
+        
     </div>
     <?php
 }
