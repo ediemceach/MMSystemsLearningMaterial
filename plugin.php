@@ -72,6 +72,47 @@ function pdev_styling_settings() {
         </table>
         </form>
         
+        
+        <table class="widefat">
+<thead>
+    <tr>
+        <th>Name</th>
+        <th>Favorite Holiday</th>
+    </tr>
+</thead>
+<tfoot>
+    <tr>
+        <th>Name</th>
+        <th>Favorite Holiday</th>
+    </tr>
+</tfoot>
+<tbody>
+    <tr>
+        <td>Brad Williams</td>
+        <td>Halloween</td>
+    </tr>
+    <tr>
+        <td>Ozh Richard</td>
+        <td>Talk Like a Pirate</td>
+    </tr>
+    <tr>
+        <td>Justin Tadlock</td>
+        <td>Christmas</td>
+    </tr>
+</tbody>
+</table>
+
+<div class="tablenav">
+    <div class="tablenav-pages">
+        <span class="displaying-num">Displaying 1-20 of 69</span>
+        <span class="page-numbers current">1</span>
+        <a href="#" class="page-numbers">2</a>
+        <a href="#" class="page-numbers">3</a>
+        <a href="#" class="page-numbers">4</a>
+        <a href="#" class="next page-numbers">&raquo;</a>
+    </div>
+</div>
+        
     </div>
     <?php
 }
