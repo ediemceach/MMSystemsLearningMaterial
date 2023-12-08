@@ -31,3 +31,12 @@ function pdev_styling_settings() {
     <?php
 }
 ?>
+
+
+<?php
+add_action( 'wp_enqueue_scripts', 'pdev_load_dashicons_front_end' );
+ 
+function pdev_load_dashicons_front_end() {
+    wp_enqueue_style( 'dashicons' );
+}
+?>
