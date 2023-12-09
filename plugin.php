@@ -7,4 +7,9 @@
  * Author URI:  http://wrox.com
  */
 
+add_action('wp_before_admin_bar_render', 'pdev_toolbar');
+
+function pdev_toolbar(){
+    ;
+}
 
