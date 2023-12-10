@@ -36,7 +36,7 @@ function pdev_validation_example_template(){
             <input type="text" name="age" id="age" value="<?php echo esc_attr(isset($_POST['age']) ? $_POST['age'] : ''); ?>" required>
             <br>
             <label for="short_cv"><?php esc_html_e('Short CV:', 'pdev-validation-example'); ?></label>
-            <textarea name="short_cv" id="short_cv" required><?php echo esc_textarea(isset($_POST['short_cv']) ? force_balance_tags($_POST['short_cv']) : ''); ?></textarea>
+            <textarea name="short_cv" id="short_cv" required><?php echo esc_textarea(isset($_POST['short_cv']) ? wp_kses($_POST['short_cv'], array('strong' => array(), 'em' => array())) : ''); ?></textarea>
             <br>
             <label for="email"><?php esc_html_e('Enter Your E-mail Address:', 'pdev-validation-example'); ?></label>
             <input type="email" name="email" id="email" value="<?php echo esc_attr(isset($_POST['email']) ? $_POST['email'] : ''); ?>" required>
@@ -56,8 +56,12 @@ function pdev_validation_example_template(){
             // Sanitize age as an integer using absint and strip non-digit characters
             $age = absint(preg_replace('/\D/', '', $_POST['age']));
 
-            // Sanitize short CV using force_balance_tags()
-            $short_cv = force_balance_tags($_POST['short_cv']);
+            // Sanitize short CV using wp_kses
+            $allowed_html = array(
+                'strong' => array(),
+                'em'     => array(),
+            );
+            $short_cv = wp_kses($_POST['short_cv'], $allowed_html);
 
             // Validate and sanitize email address
             $email = sanitize_email($_POST['email']);
