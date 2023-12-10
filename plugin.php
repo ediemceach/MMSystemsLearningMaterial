@@ -8,6 +8,28 @@
  */
 
 add_action('admin_menu','pdev_nonce_example_menu');
+add_action( 'admin_init', 'pdev_nonce_example_verify' );
+
+
+function pdev_nonce_example_verify(){
+    // Bail if no nonce field.
+    if ( ! isset( $_POST['pdev_nonce_name'] ) ) {
+        return;
+    }
+    
+    // Display error and die if not verified.
+    if ( ! wp_verify_nonce( $_POST['pdev_nonce_name'], 'pdev_nonce_action' ) ) {
+        wp_die( 'Your nonce could not be verified.' );
+    }
+    
+    // Sanitize and update the option if it's set.
+    if ( isset( $_POST['pdev_nonce_example'] ) ) {
+        update_option(
+            'pdev_nonce_example',
+            wp_strip_all_tags( $_POST['pdev_nonce_example'] )
+            );
+    }
+}
  
 
 function pdev_nonce_example_menu(){
