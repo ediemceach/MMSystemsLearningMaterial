@@ -98,6 +98,14 @@ function pdev_validation_example_template(){
             echo '</div>';
         }
         ?>
+
+        <?php $data = [['color' => '#000']]; ?>
+        <div data-pdev="<?php echo esc_attr(wp_json_encode($data)); ?>">
+        </div>
+
+        <?php $value = 'Hello'; ?>
+        <button onclick="alert('<?php echo esc_js($value); ?>');">Click Me</button>
+
     </div>
     <?php
 }
