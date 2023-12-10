@@ -47,9 +47,9 @@ function pdev_validation_example_template(){
 
         <?php
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('pdev-validation-example-nonce')) {
-            // Validate age as an integer
-            $age = filter_var($_POST['age'], FILTER_VALIDATE_INT);
-            $valid_age = $age !== false && $age >= 0 && intval($age) === 100; // Additional validation
+            // Sanitize age as an integer
+            $age = intval($_POST['age']);
+            $valid_age = $age >= 0 && $age === 100; // Additional validation
 
             // Validate fruit selection
             $valid_fruit = ['banana', 'kiwi', 'watermelon'];
