@@ -36,7 +36,7 @@ function pdev_validation_example_template(){
             <input type="text" name="age" id="age" value="<?php echo esc_attr(isset($_POST['age']) ? $_POST['age'] : ''); ?>" required>
             <br>
             <label for="short_cv"><?php esc_html_e('Short CV:', 'pdev-validation-example'); ?></label>
-            <input type="text" name="short_cv" id="short_cv" value="<?php echo esc_attr(isset($_POST['short_cv']) ? $_POST['short_cv'] : ''); ?>" required>
+            <textarea name="short_cv" id="short_cv" required><?php echo esc_textarea(isset($_POST['short_cv']) ? force_balance_tags($_POST['short_cv']) : ''); ?></textarea>
             <br>
             <label for="email"><?php esc_html_e('Enter Your E-mail Address:', 'pdev-validation-example'); ?></label>
             <input type="email" name="email" id="email" value="<?php echo esc_attr(isset($_POST['email']) ? $_POST['email'] : ''); ?>" required>
@@ -56,8 +56,8 @@ function pdev_validation_example_template(){
             // Sanitize age as an integer using absint and strip non-digit characters
             $age = absint(preg_replace('/\D/', '', $_POST['age']));
 
-            // Sanitize short CV using sanitize_text_field
-            $short_cv = sanitize_text_field($_POST['short_cv']);
+            // Sanitize short CV using force_balance_tags()
+            $short_cv = force_balance_tags($_POST['short_cv']);
 
             // Validate and sanitize email address
             $email = sanitize_email($_POST['email']);
@@ -71,18 +71,6 @@ function pdev_validation_example_template(){
             echo '<p>Sanitized Short CV: ' . esc_html($short_cv) . '</p>';
             echo '<p>Original Email: ' . esc_html($_POST['email']) . '</p>';
             echo '<p>Sanitized Email: ' . esc_html($email) . '</p>';
-            echo '</div>';
-            
-            // Print URL on screen
-            $url = 'http://example.com';
-            echo '<p>URL: <a href="' . esc_url($url) . '">Example</a></p>';
-            
-            echo '</div>';
-            
-            
-            // Save URL to the WordPress database
-            update_option('pdev_url_setting', esc_url_raw($url));
-            
             echo '</div>';
 
             // Additional validation for age
