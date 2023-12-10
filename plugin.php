@@ -22,7 +22,7 @@ function pdev_validation_example_menu(){
 
 function pdev_validation_example_notice(){
     if (isset($_GET['validation_error'])) {
-        echo '<div class="error"><p>' . esc_html__('Invalid input. Please check your age and fruit selection.', 'pdev-validation-example') . '</p></div>';
+        echo '<div class="error"><p>' . esc_html__('Invalid input. Please check your age, short CV, and fruit selection.', 'pdev-validation-example') . '</p></div>';
     }
 }
 
@@ -34,6 +34,9 @@ function pdev_validation_example_template(){
             <?php wp_nonce_field('pdev-validation-example-nonce'); ?>
             <label for="age"><?php esc_html_e('Enter Your Age:', 'pdev-validation-example'); ?></label>
             <input type="text" name="age" id="age" value="<?php echo esc_attr(isset($_POST['age']) ? $_POST['age'] : ''); ?>" required>
+            <br>
+            <label for="short_cv"><?php esc_html_e('Short CV:', 'pdev-validation-example'); ?></label>
+            <textarea name="short_cv" id="short_cv"><?php echo esc_textarea(isset($_POST['short_cv']) ? $_POST['short_cv'] : ''); ?></textarea>
             <br>
             <label for="fruit"><?php esc_html_e('Select a Fruit:', 'pdev-validation-example'); ?></label>
             <select name="fruit" id="fruit" required>
@@ -47,18 +50,22 @@ function pdev_validation_example_template(){
 
         <?php
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('pdev-validation-example-nonce')) {
-            // Sanitize age as an integer using absint
+            // Sanitize age as an integer using absint and strip non-digit characters
             $age = absint(preg_replace('/\D/', '', $_POST['age']));
+
+            // Sanitize short CV
+            $short_cv = sanitize_textarea_field($_POST['short_cv']);
 
             // Debug information
             echo '<div class="debug">';
             echo '<p>Debug Information:</p>';
             echo '<p>Original Age: ' . esc_html($_POST['age']) . '</p>';
             echo '<p>Sanitized Age: ' . esc_html($age) . '</p>';
+            echo '<p>Short CV: ' . esc_html($short_cv) . '</p>';
             echo '</div>';
 
             // Additional validation for age
-            $valid_age = $age >= 0 && $age <= 100; 
+            $valid_age = $age >= 0 && $age <= 100; // Check if age is between 0 and 100 (inclusive)
 
             // Validate fruit selection
             $valid_fruit = ['banana', 'kiwi', 'watermelon'];
@@ -70,7 +77,7 @@ function pdev_validation_example_template(){
             if ($valid_age && $valid_fruit_selection) {
                 echo '<p>' . esc_html__('Valid Input!', 'pdev-validation-example') . '</p>';
             } else {
-                echo '<p>' . esc_html__('Invalid Input. Please check your age and fruit selection.', 'pdev-validation-example') . '</p>';
+                echo '<p>' . esc_html__('Invalid Input. Please check your age, short CV, and fruit selection.', 'pdev-validation-example') . '</p>';
             }
             echo '</div>';
         }
