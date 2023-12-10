@@ -78,6 +78,12 @@ function pdev_validation_example_template(){
             echo '<p>URL: <a href="' . esc_url($url) . '">Example</a></p>';
             
             echo '</div>';
+            
+            
+            // Save URL to the WordPress database
+            update_option('pdev_url_setting', esc_url_raw($url));
+            
+            echo '</div>';
 
             // Additional validation for age
             $valid_age = $age >= 0 && $age <= 100; // Check if age is between 0 and 100 (inclusive)
