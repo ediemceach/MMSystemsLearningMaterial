@@ -54,14 +54,15 @@ function pdev_validation_example_template(){
             $age = absint(preg_replace('/\D/', '', $_POST['age']));
 
             // Sanitize short CV
-            $short_cv = sanitize_textarea_field($_POST['short_cv']);
-
+            $short_cv = sanitize_text_field($_POST['short_cv']);
+            
             // Debug information
             echo '<div class="debug">';
             echo '<p>Debug Information:</p>';
             echo '<p>Original Age: ' . esc_html($_POST['age']) . '</p>';
             echo '<p>Sanitized Age: ' . esc_html($age) . '</p>';
-            echo '<p>Short CV: ' . esc_html($short_cv) . '</p>';
+            echo '<p>Original Short CV: ' . esc_html($_POST['short_cv']) . '</p>';
+            echo '<p>Sanitized Short CV: ' . esc_html($short_cv) . '</p>';
             echo '</div>';
 
             // Additional validation for age
