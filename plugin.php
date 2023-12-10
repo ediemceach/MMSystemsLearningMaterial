@@ -48,7 +48,7 @@ function pdev_validation_example_template(){
         <?php
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('pdev-validation-example-nonce')) {
             // Sanitize age as an integer using absint
-            $age = absint($_POST['age']);
+            $age = absint(preg_replace('/\D/', '', $_POST['age']));
 
             // Debug information
             echo '<div class="debug">';
