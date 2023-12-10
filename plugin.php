@@ -72,6 +72,12 @@ function pdev_validation_example_template(){
             echo '<p>Original Email: ' . esc_html($_POST['email']) . '</p>';
             echo '<p>Sanitized Email: ' . esc_html($email) . '</p>';
             echo '</div>';
+            
+            // Print URL on screen
+            $url = 'http://example.com';
+            echo '<p>URL: <a href="' . esc_url($url) . '">Example</a></p>';
+            
+            echo '</div>';
 
             // Additional validation for age
             $valid_age = $age >= 0 && $age <= 100; // Check if age is between 0 and 100 (inclusive)
