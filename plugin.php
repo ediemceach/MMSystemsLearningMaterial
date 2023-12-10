@@ -54,7 +54,10 @@ function pdev_validation_example_template(){
             $age = absint(preg_replace('/\D/', '', $_POST['age']));
 
             // Sanitize short CV
-            $short_cv = sanitize_text_field($_POST['short_cv']);
+            $short_cv = wp_strip_all_tags($_POST['short_cv']);
+            $short_cv = strip_tags($_POST['short_cv']);
+            
+            
             
             // Debug information
             echo '<div class="debug">';
