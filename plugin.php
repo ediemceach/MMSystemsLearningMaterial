@@ -17,7 +17,7 @@ function pdev_validation_example_menu(){
         'manage_options',
         'pdev-validation-example',
         'pdev_validation_example_template'
-    );
+        );
 }
 
 function pdev_validation_example_notice(){
@@ -44,26 +44,28 @@ function pdev_validation_example_template(){
             <br>
             <input type="submit" class="button-primary" value="<?php esc_attr_e('Submit', 'pdev-validation-example'); ?>">
         </form>
+
+        <?php
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('pdev-validation-example-nonce')) {
+            // Validate age as an integer
+            $age = filter_var($_POST['age'], FILTER_VALIDATE_INT);
+            $valid_age = $age !== false && $age >= 0;
+
+            // Validate fruit selection
+            $valid_fruit = ['banana', 'kiwi', 'watermelon'];
+            $fruit = sanitize_text_field($_POST['fruit']);
+            $valid_fruit_selection = in_array($fruit, $valid_fruit, true);
+
+            // Print whether input is valid or invalid
+            echo '<div class="notice">';
+            if ($valid_age && $valid_fruit_selection) {
+                echo '<p>' . esc_html__('Valid Input!', 'pdev-validation-example') . '</p>';
+            } else {
+                echo '<p>' . esc_html__('Invalid Input. Please check your age and fruit selection.', 'pdev-validation-example') . '</p>';
+            }
+            echo '</div>';
+        }
+        ?>
     </div>
     <?php
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('pdev-validation-example-nonce')) {
-        // Validate age as a non-negative integer
-        $age = absint($_POST['age']);
-        if ($age < 0) {
-            wp_safe_redirect(admin_url('admin.php?page=pdev-validation-example&validation_error=true'));
-            exit;
-        }
-
-        // Validate fruit selection
-        $valid_fruit = ['banana', 'kiwi', 'watermelon'];
-        $fruit = sanitize_text_field($_POST['fruit']);
-        if (!in_array($fruit, $valid_fruit, true)) {
-            wp_safe_redirect(admin_url('admin.php?page=pdev-validation-example&validation_error=true'));
-            exit;
-        }
-
-        // If validation passes, you can use $age and $fruit as needed
-        // Do something with $age and $fruit here
-    }
 }
