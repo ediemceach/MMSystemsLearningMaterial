@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SQL Sanitizer
  * Plugin URI: http://example.com/
- * Description: Plugin for updating post title using SQL sanitization.
+ * Description: Plugin for updating post title and retrieving post IDs using SQL sanitization.
  * Author: Your Name
  * Author URI: http://yourwebsite.com/
  */
@@ -16,7 +16,7 @@ function sql_sanitizer_menu() {
         'manage_options',
         'sql-sanitizer',
         'sql_sanitizer_settings_page'
-    );
+        );
 }
 
 // Settings page callback function
@@ -35,7 +35,24 @@ function sql_sanitizer_settings_page() {
             <input type="submit" class="button-primary" value="<?php esc_attr_e('Update Post Title', 'sql-sanitizer'); ?>">
         </form>
 
+        <form method="post" action="">
+            <?php wp_nonce_field('get-post-ids-nonce'); ?>
+            <input type="submit" name="get_post_ids" class="button-secondary" value="<?php esc_attr_e('Get Post IDs', 'sql-sanitizer'); ?>">
+        </form>
+
         <?php
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('get-post-ids-nonce')) {
+            // Get and display post IDs using $wpdb
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'posts';
+
+            $post_ids = $wpdb->get_col("SELECT ID FROM $table_name");
+
+            echo '<div class="notice">';
+            echo '<p>' . esc_html__('Post IDs:', 'sql-sanitizer') . ' ' . implode(', ', $post_ids) . '</p>';
+            echo '</div>';
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('sql-sanitizer-nonce')) {
             // Sanitize and prepare user input
             $post_id = absint($_POST['post_id']);
