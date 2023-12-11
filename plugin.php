@@ -33,3 +33,26 @@ function media_figure_example_shortcode($atts, $content = '') {
     
     return $output;
 }
+
+// Add menu entry
+add_action('admin_menu', 'media_figure_example_menu');
+function media_figure_example_menu() {
+    add_menu_page(
+        'Media Figure Example',
+        'Media Figure Example',
+        'manage_options',
+        'media-figure-example',
+        'media_figure_example_settings_page'
+        );
+}
+
+// Settings page callback function
+function media_figure_example_settings_page() {
+    ?>
+    <div class="wrap">
+        <h1><?php esc_html_e('Media Figure Example Settings', 'media-figure-example'); ?></h1>
+        <p><?php esc_html_e('This is the settings page for the Media Figure Example plugin.', 'media-figure-example'); ?></p>
+        <!-- Add your settings or configuration options here -->
+    </div>
+    <?php
+}
