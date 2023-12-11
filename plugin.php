@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SQL Sanitizer
  * Plugin URI: http://example.com/
- * Description: Plugin for updating post title and retrieving post IDs using SQL sanitization.
+ * Description: Plugin for updating post title and retrieving post details using SQL sanitization.
  * Author: Your Name
  * Author URI: http://yourwebsite.com/
  */
@@ -25,7 +25,7 @@ function sql_sanitizer_settings_page() {
     <div class="wrap">
         <h1><?php esc_html_e('SQL Sanitizer', 'sql-sanitizer'); ?></h1>
         <form method="post" action="">
-            <?php wp_nonce_field('sql-sanitizer-nonce'); ?>
+            <?php wp_nonce_field('update-post-title-form', 'update-post-title-nonce', true, true); ?>
             <label for="post_id"><?php esc_html_e('Post ID:', 'sql-sanitizer'); ?></label>
             <input type="number" name="post_id" id="post_id" required>
             <br>
@@ -36,24 +36,33 @@ function sql_sanitizer_settings_page() {
         </form>
 
         <form method="post" action="">
-            <?php wp_nonce_field('get-post-ids-nonce'); ?>
-            <input type="submit" name="get_post_ids" class="button-secondary" value="<?php esc_attr_e('Get Post IDs', 'sql-sanitizer'); ?>">
+            <?php wp_nonce_field('get-post-details-form', 'get-post-details-nonce', true, true); ?>
+            <input type="submit" name="get_post_details" class="button-secondary" value="<?php esc_attr_e('Get Post Details', 'sql-sanitizer'); ?>">
         </form>
 
         <?php
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('get-post-ids-nonce')) {
-            // Get and display post IDs using $wpdb
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('get-post-details-form', 'get-post-details-nonce')) {
+            // Get and display post details using $wpdb
             global $wpdb;
             $table_name = $wpdb->prefix . 'posts';
 
-            $post_ids = $wpdb->get_col("SELECT ID FROM $table_name");
+            $posts = $wpdb->get_results("SELECT ID, post_title, post_date FROM $table_name");
 
             echo '<div class="notice">';
-            echo '<p>' . esc_html__('Post IDs:', 'sql-sanitizer') . ' ' . implode(', ', $post_ids) . '</p>';
+            echo '<p>' . esc_html__('Post Details:', 'sql-sanitizer') . '</p>';
+            echo '<ul>';
+            foreach ($posts as $post) {
+                echo '<li>';
+                echo esc_html__('ID:', 'sql-sanitizer') . ' ' . esc_html($post->ID) . ' | ';
+                echo esc_html__('Title:', 'sql-sanitizer') . ' ' . esc_html($post->post_title) . ' | ';
+                echo esc_html__('Date:', 'sql-sanitizer') . ' ' . esc_html($post->post_date);
+                echo '</li>';
+            }
+            echo '</ul>';
             echo '</div>';
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('sql-sanitizer-nonce')) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && check_admin_referer('update-post-title-form', 'update-post-title-nonce')) {
             // Sanitize and prepare user input
             $post_id = absint($_POST['post_id']);
             $post_title = sanitize_text_field($_POST['post_title']);
